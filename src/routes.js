@@ -1,9 +1,10 @@
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import Login from './pages/Login';
-import RecipesHome from './pages/RecipesHome';
+import MealCategories from './pages/MealCategories';
 import PrivateRoute from './components/PrivateRoute';
-import RecipeDetails from './pages/RecipeDetails';
+import MealDetails from './pages/MealDetails';
 import Error404 from './errors/Error404';
+import MealsList from './pages/MealsList';
 
 export default function Routes() {
   return (
@@ -12,12 +13,16 @@ export default function Routes() {
 
         <Route path="/" exact component={Login} />
 
-        <PrivateRoute path="/recipes">
-          <RecipesHome />
+        <PrivateRoute path="/categories">
+          <MealCategories />
         </PrivateRoute>
 
-        <PrivateRoute path="/recipe/:id">
-          <RecipeDetails />
+        <PrivateRoute path="/list/:id">
+          <MealsList />
+        </PrivateRoute>
+
+        <PrivateRoute path="/details/:id">
+          <MealDetails />
         </PrivateRoute>
 
         <Route path="*">
