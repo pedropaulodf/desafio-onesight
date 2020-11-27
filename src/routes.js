@@ -5,6 +5,7 @@ import PrivateRoute from './components/PrivateRoute';
 import MealDetails from './pages/MealDetails';
 import Error404 from './errors/Error404';
 import MealsList from './pages/MealsList';
+import CreateAccount from './pages/CreateAccount';
 
 export default function Routes() {
   return (
@@ -12,6 +13,8 @@ export default function Routes() {
       <Switch>
 
         <Route path="/" exact component={Login} />
+
+        <Route path="/register" component={CreateAccount} />
 
         <PrivateRoute path="/categories">
           <MealCategories />
@@ -24,6 +27,7 @@ export default function Routes() {
         <PrivateRoute path="/details/:id">
           <MealDetails />
         </PrivateRoute>
+
 
         <Route path="*">
           <Error404 />

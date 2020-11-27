@@ -1,44 +1,31 @@
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import styled from "styled-components";
 import api from "../services/api.js";
 import { useHistory } from "react-router";
-import {
-  Button,
-  FormControl,
-  Grid,
-  IconButton,
-  InputAdornment,
-  InputLabel,
-  OutlinedInput,
-  Snackbar,
-  Typography,
-} from "@material-ui/core";
 import { Visibility, VisibilityOff } from "@material-ui/icons";
 import MuiAlert from "@material-ui/lab/Alert";
 import apiURL from '../utils/Utils';
+import { Button, FormControl, Grid, IconButton, InputAdornment, InputLabel, OutlinedInput, Snackbar, Typography } from "@material-ui/core";
 
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
 
-export default function Login() {
+export default function CreateAccount() {
   const logged = useSelector((state) => state.login);
   const history = useHistory();
-  const dispatch = useDispatch();
 
-  const [userLoginValues, setUserLoginValues] = useState({
-    email: '',
-    password: '',
-    showPassword: false,
-  });
+  const [btnFormSendDisabled, setBtnFormSendDisabled] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [openAlertError, setOpenAlertError] = useState(false);
-
-  useEffect(() => {
-    setOpenAlertError(false);
-    setErrorMessage('');
-  }, [userLoginValues.email, userLoginValues.password]);
+  const [userLoginValues, setUserLoginValues] = useState({
+    name: '',
+    email: '',
+    password: '',
+    passwordConfirm: '',
+    showPassword: false,
+  });
 
   useEffect(() => {
     if (logged) {
@@ -49,7 +36,8 @@ export default function Login() {
   async function handleFormSubmit(event) {
     event.preventDefault();
     const userLogged = await api
-      .post(`${apiURL.apiLoginURL}`, {
+      .post(`${apiURL.apiSignupURL}`, {
+        name: userLoginValues.name,
         email: userLoginValues.email,
         password: userLoginValues.password,
       })
@@ -61,10 +49,6 @@ export default function Login() {
       });
 
     if (userLogged) {
-      // sessionStorage.setItem('user_token', userLogged);
-      // console.log(sessionStorage.getItem('user_token'));
-
-      dispatch({ type: "USER_LOGIN" });
       history.push("/categories");
     } else {
       setErrorMessage("Invalid e-mail or password");
@@ -80,6 +64,9 @@ export default function Login() {
   };
 
   const handleInputsChanges = (prop) => (event) => {
+
+    validateForm(prop);
+
     setUserLoginValues({ ...userLoginValues, [prop]: event.target.value });
   };
   const handleClickShowPassword = () => {
@@ -92,10 +79,62 @@ export default function Login() {
     event.preventDefault();
   };
 
-  function handleClickGoToCreateAccount(){
-    history.push("/register");
+  function validateForm(formItem) {
+
+    switch (formItem) {
+      case 'name':
+        if (userLoginValues.name.length <= 3) {
+          setErrorMessage("Name must be greater than 3");
+          setOpenAlertError(true);
+          setBtnFormSendDisabled(true);
+        }else{
+          setOpenAlertError(false);
+          setBtnFormSendDisabled(false);
+        }
+        break;
+
+        case 'email':
+          if (userLoginValues.email.length <= 3) {
+            setErrorMessage("Email must be greater than 3");
+            setOpenAlertError(true);
+            setBtnFormSendDisabled(true);
+          }else{
+            setOpenAlertError(false);
+            setBtnFormSendDisabled(false);
+          }
+          break;
+
+        case 'password':
+          if (userLoginValues.password.length <= 6) {
+            setErrorMessage("Password must be greater than 6");
+            setOpenAlertError(true);
+            setBtnFormSendDisabled(true);
+          }else{
+            setOpenAlertError(false);
+            setBtnFormSendDisabled(false);
+          }
+          break;
+
+        case 'passwordConfirm':
+          if (userLoginValues.passwordConfirm.length <= 6) {
+            setErrorMessage("Confirm Password must be greater than 6");
+            setOpenAlertError(true);
+            setBtnFormSendDisabled(true);
+          }else{
+            setOpenAlertError(false);
+            setBtnFormSendDisabled(false);
+          }
+          break;
+    
+      default:
+        break;
+    }
   }
-  
+
+  function handleClickGoToLogin(){
+    history.push("/");
+  }
+
   return (
     <StyledContainer>
       <StyledBoxLogin>
@@ -103,17 +142,35 @@ export default function Login() {
           <Grid container spacing={2}>
             <Grid item xs={12} sm={12} md={12}>
               <Typography variant="h5" gutterBottom>
-                Recipes Login
+                Recipes Signup
               </Typography>
             </Grid>
+            <Grid item xs={12} sm={12} md={12}>
+              <FormControl fullWidth variant="outlined">
+                <InputLabel htmlFor="outlined-adornment-name">
+                  Name
+                </InputLabel>
+                <OutlinedInput
+                  error={userLoginValues.name.length <= 3 && userLoginValues.name.length !== 0}
+                  id="outlined-adornment-name"
+                  type="text"
+                  value={userLoginValues.name}
+                  onChange={handleInputsChanges("name")}
+                  labelWidth={45}
+                  required
+                />
+              </FormControl>
+            </Grid>
+
             <Grid item xs={12} sm={12} md={12}>
               <FormControl fullWidth variant="outlined">
                 <InputLabel htmlFor="outlined-adornment-email">
                   E-mail
                 </InputLabel>
                 <OutlinedInput
+                  error={userLoginValues.email.length <= 3 && userLoginValues.email.length !== 0}
                   id="outlined-adornment-email"
-                  type="text"
+                  type="email"
                   value={userLoginValues.email}
                   onChange={handleInputsChanges("email")}
                   labelWidth={45}
@@ -128,6 +185,7 @@ export default function Login() {
                   Password
                 </InputLabel>
                 <OutlinedInput
+                  error={userLoginValues.passwordConfirm !== userLoginValues.password ? true : false}
                   id="outlined-adornment-password"
                   type={userLoginValues.showPassword ? "text" : "password"}
                   value={userLoginValues.password}
@@ -155,14 +213,49 @@ export default function Login() {
             </Grid>
 
             <Grid item xs={12} sm={12} md={12}>
+              <FormControl fullWidth variant="outlined">
+                <InputLabel htmlFor="outlined-adornment-password-confirm">
+                  Confirm Password
+                </InputLabel>
+                <OutlinedInput
+                  error={userLoginValues.passwordConfirm !== userLoginValues.password ? true : false}
+                  id="outlined-adornment-password-confirm"
+                  type={userLoginValues.showPassword ? "text" : "password"}
+                  value={userLoginValues.passwordConfirm}
+                  onChange={handleInputsChanges("passwordConfirm")}
+                  labelWidth={135}
+                  required
+                  endAdornment={
+                    <InputAdornment position="end">
+                      <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={handleClickShowPassword}
+                        onMouseDown={handleMouseDownPassword}
+                        edge="end"
+                      >
+                        {userLoginValues.showPassword ? (
+                          <Visibility />
+                        ) : (
+                          <VisibilityOff />
+                        )}
+                      </IconButton>
+                    </InputAdornment>
+                  }
+                  
+                />
+              </FormControl>
+            </Grid>
+
+            <Grid item xs={12} sm={12} md={12}>
               <Button
                 fullWidth
                 variant="contained"
-                color="primary"
+                color="secondary"
                 type="submit"
                 disableElevation
+                disabled={btnFormSendDisabled}
               >
-                Login
+                Create my account
               </Button>
             </Grid>
           </Grid>
@@ -181,11 +274,11 @@ export default function Login() {
         <Button
           fullWidth
           variant="outlined"
-          color="secondary"
+          color="primary"
           disableElevation
-          onClick={handleClickGoToCreateAccount}
+          onClick={handleClickGoToLogin}
         >
-          Signup
+          Login
         </Button>
       </StyledBoxLogin>
     </StyledContainer>
@@ -213,6 +306,38 @@ const StyledBoxLogin = styled.div`
   border-radius: 10px;
   box-shadow: 0px 3px 7px 0px rgb(0 0 0 / 9%);
 `;
+
+// const StyledInputText = styled.input.attrs({
+//   id: "login",
+//   name: "login",
+//   placeholder: "Your e-mail:",
+//   type: "text",
+// })`
+//   width: 100%;
+//   height: 50px;
+//   box-sizing: border-box;
+//   padding: 10px 10px;
+//   border: none;
+//   border-radius: 7px;
+//   margin: 7px 0px;
+//   font-size: 16px;
+// `;
+
+// const StyledInputPass = styled.input.attrs({
+//   id: "password",
+//   name: "password",
+//   placeholder: "Your password:",
+//   type: "password",
+// })`
+//   width: 100%;
+//   height: 50px;
+//   box-sizing: border-box;
+//   padding: 10px 10px;
+//   border: none;
+//   border-radius: 7px;
+//   margin: 7px 0px;
+//   font-size: 16px;
+// `;
 
 const StyledSubmitButton = styled.button`
   width: 100%;

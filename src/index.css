@@ -2,6 +2,6 @@ body {
   margin: 0;
 }
 
-button, input, select{
+button, input, select, table{
   font-family: 'Roboto', sans-serif;
 }
