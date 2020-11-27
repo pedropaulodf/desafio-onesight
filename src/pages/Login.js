@@ -34,9 +34,11 @@ export default function Login() {
   });
   const [errorMessage, setErrorMessage] = useState('');
   const [openAlertError, setOpenAlertError] = useState(false);
+  const [btnFormSendDisabled, setBtnFormSendDisabled] = useState(true);
 
   useEffect(() => {
     setOpenAlertError(false);
+    setBtnFormSendDisabled(false);
     setErrorMessage('');
   }, [userLoginValues.email, userLoginValues.password]);
 
@@ -48,6 +50,7 @@ export default function Login() {
 
   async function handleFormSubmit(event) {
     event.preventDefault();
+    setBtnFormSendDisabled(true);
     const userLogged = await api
       .post(`${apiLoginURL}`, {
         email: userLoginValues.email,
@@ -69,6 +72,7 @@ export default function Login() {
     } else {
       setErrorMessage("Invalid e-mail or password");
       setOpenAlertError(true);
+      setBtnFormSendDisabled(false);
     }
   }
 
@@ -161,6 +165,7 @@ export default function Login() {
                 color="primary"
                 type="submit"
                 disableElevation
+                disabled={btnFormSendDisabled}
               >
                 Login
               </Button>
