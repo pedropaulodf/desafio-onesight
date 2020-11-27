@@ -47,6 +47,9 @@ export default function Header() {
   const history = useHistory();
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
+  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
+  const isMenuOpen = Boolean(anchorEl);
+  const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
   const logged = useSelector((state) => {
     return state.login;
@@ -68,27 +71,6 @@ export default function Header() {
   function handleGoToCategories() {
     history.push("/categories");
   }
-
-  const handleMenu = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-
-
-
-
-
-
-
-
-
-  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
-
-  const isMenuOpen = Boolean(anchorEl);
-  const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -177,18 +159,6 @@ export default function Header() {
         </MenuItem>)}
     </Menu>
   );
-
-
-
-
-
-
-
-
-
-
-
-
 
   return (
     <div className={classes.grow}>
