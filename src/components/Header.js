@@ -9,7 +9,10 @@ import IconButton from "@material-ui/core/IconButton";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
-import { Button, FormControlLabel, Switch } from "@material-ui/core";
+import { Button, FormControlLabel, ListItemIcon, Switch } from "@material-ui/core";
+
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import MoreIcon from "@material-ui/icons/MoreVert";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -24,6 +27,18 @@ const useStyles = makeStyles((theme) => ({
   headerBar: {
     marginBottom: "20px",
   },
+  sectionDesktop: {
+    display: "none",
+    [theme.breakpoints.up("md")]: {
+      display: "flex"
+    }
+  },
+  sectionMobile: {
+    display: "flex",
+    [theme.breakpoints.up("md")]: {
+      display: "none"
+    }
+  }
 }));
 
 export default function Header() {
@@ -62,75 +77,164 @@ export default function Header() {
     setAnchorEl(null);
   };
 
+
+
+
+
+
+
+
+
+  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
+
+  const isMenuOpen = Boolean(anchorEl);
+  const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+
+  const handleProfileMenuOpen = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleMobileMenuClose = () => {
+    setMobileMoreAnchorEl(null);
+  };
+
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+    handleMobileMenuClose();
+  };
+
+  const handleMobileMenuOpen = (event) => {
+    setMobileMoreAnchorEl(event.currentTarget);
+  };
+
+  const menuId = "primary-search-account-menu";
+  const renderMenu = (
+    <Menu
+      anchorEl={anchorEl}
+      anchorOrigin={{ vertical: "top", horizontal: "right" }}
+      id={menuId}
+      keepMounted
+      transformOrigin={{ vertical: "top", horizontal: "right" }}
+      open={isMenuOpen}
+      onClose={handleMenuClose}
+    >
+      {logged 
+      ? (
+        <MenuItem onClick={() => {dispatch({ type: "USER_LOGOUT" });}}>
+          <ListItemIcon>
+            <ExitToAppIcon />
+          </ListItemIcon>
+          <Typography variant="inherit">Exit</Typography>
+        </MenuItem>) 
+      : (
+        <MenuItem onClick={() => {dispatch({ type: "USER_LOGIN" });}} >
+          <ListItemIcon>
+            <AccountCircle />
+          </ListItemIcon>
+          <Typography variant="inherit">Login</Typography>
+        </MenuItem>)}
+    </Menu>
+  );
+
+  const mobileMenuId = "primary-search-account-menu-mobile";
+  const renderMobileMenu = (
+    <Menu
+      anchorEl={mobileMoreAnchorEl}
+      anchorOrigin={{ vertical: "top", horizontal: "right" }}
+      id={mobileMenuId}
+      keepMounted
+      transformOrigin={{ vertical: "top", horizontal: "right" }}
+      open={isMobileMenuOpen}
+      onClose={handleMobileMenuClose}
+    >
+      <MenuItem>
+        <Button color="inherit" variant="outlined" onClick={handleGoToCategories}>
+          All Categories
+        </Button>
+      </MenuItem>
+
+      <MenuItem>
+        <FormControlLabel
+        control={<Switch checked={tableMode} onChange={handleChange} name="checkedA" />}
+        label="Table Mode"
+      />
+      </MenuItem>
+
+      {logged 
+      ? (
+        <MenuItem onClick={() => {dispatch({ type: "USER_LOGOUT" });}}>
+          <ListItemIcon>
+            <ExitToAppIcon />
+          </ListItemIcon>
+          <Typography variant="inherit">Exit</Typography>
+        </MenuItem>) 
+      : (
+        <MenuItem onClick={() => {dispatch({ type: "USER_LOGIN" });}} >
+          <ListItemIcon>
+            <AccountCircle />
+          </ListItemIcon>
+          <Typography variant="inherit">Login</Typography>
+        </MenuItem>)}
+    </Menu>
+  );
+
+
+
+
+
+
+
+
+
+
+
+
+
   return (
-    <div className={classes.root}>
-      <AppBar position="static" className={classes.headerBar}>
+    <div className={classes.grow}>
+      <AppBar position="static">
         <Toolbar>
-          <Typography
-            variant="h6"
-            className={classes.title}
-            onClick={handleGoToCategories}
-          >
+          <Typography className={classes.title} variant="h6" noWrap>
             #DesafioOneSight
           </Typography>
-          <FormControlLabel
-            control={<Switch checked={tableMode} onChange={handleChange} name="checkedA" />}
-            label="Table Mode"
-          />
-          <Button color="inherit" variant="outlined" onClick={handleGoToCategories}>
-            All Categories
-          </Button>
 
-          {logged && (
-            <div>
-              <IconButton
-                aria-label="account of current user"
-                aria-controls="menu-appbar"
-                aria-haspopup="true"
-                onClick={handleMenu}
-                color="inherit"
-              >
-                <AccountCircle />
-              </IconButton>
-              <Menu
-                id="menu-appbar"
-                anchorEl={anchorEl}
-                anchorOrigin={{
-                  vertical: "top",
-                  horizontal: "right",
-                }}
-                keepMounted
-                transformOrigin={{
-                  vertical: "top",
-                  horizontal: "right",
-                }}
-                open={open}
-                onClose={handleClose}
-              >
-                {logged 
-                ? (
-                  <MenuItem
-                    onClick={() => {
-                      dispatch({ type: "USER_LOGOUT" });
-                    }}
-                  >
-                    Exit
-                  </MenuItem>
-                ) 
-                : (
-                  <MenuItem
-                    onClick={() => {
-                      dispatch({ type: "USER_LOGIN" });
-                    }}
-                  >
-                    Login
-                  </MenuItem>
-                )}
-              </Menu>
-            </div>
-          )}
+          <div className={classes.grow} />
+          <div className={classes.sectionDesktop}>
+            <FormControlLabel
+              control={<Switch checked={tableMode} onChange={handleChange} name="checkedA" />}
+              label="Table Mode"
+            />
+
+            <Button color="inherit" variant="outlined" onClick={handleGoToCategories}>
+              All Categories
+            </Button>
+
+            <IconButton
+              edge="end"
+              aria-label="account of current user"
+              aria-controls={menuId}
+              aria-haspopup="true"
+              onClick={handleProfileMenuOpen}
+              color="inherit"
+            >
+              <AccountCircle />
+            </IconButton>
+          </div>
+          <div className={classes.sectionMobile}>
+            <IconButton
+              aria-label="show more"
+              aria-controls={mobileMenuId}
+              aria-haspopup="true"
+              onClick={handleMobileMenuOpen}
+              color="inherit"
+            >
+              <MoreIcon />
+            </IconButton>
+          </div>
         </Toolbar>
       </AppBar>
+      {renderMobileMenu}
+      {renderMenu}
     </div>
   );
 }
