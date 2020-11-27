@@ -9,3 +9,8 @@ Basta clonar este projeto [desafio-onesight-api](https://github.com/pedropaulodf
 ### Rodar o App
 
 Basta dar um `yarn install` e depois um `yarn start`
+
+
+### Ainda a corrigir
+
+* "Responsividade" da tabela no mobile
