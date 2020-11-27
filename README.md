@@ -4,7 +4,7 @@
 
 ### Rodar o server
 
-Basta acessar a pasta `server` e dar um `yarn install` e depois um `yarn start`
+Basta clonar esse projeto [desafio-onesight-api](https://github.com/pedropaulodf/desafio-onesight-api/) e dar um `yarn install` e depois um `yarn start`
 
 ### Rodar o App
 
