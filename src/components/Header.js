@@ -46,9 +46,9 @@ export default function Header() {
     tableMode ? dispatch({ type: "MODE_DISABLE" }) : dispatch({ type: "MODE_ACTIVATE" });
   };
 
-  function handleGoBackButtonClick() {
-    history.goBack();
-  }
+  // function handleGoBackButtonClick() {
+  //   history.goBack();
+  // }
 
   function handleGoToCategories() {
     history.push("/categories");
