@@ -5,7 +5,7 @@ import api from "../services/api.js";
 import { useHistory } from "react-router";
 import { Visibility, VisibilityOff } from "@material-ui/icons";
 import MuiAlert from "@material-ui/lab/Alert";
-import apiURL from '../utils/Utils';
+import {apiSignupURL} from '../utils/Utils';
 import { Button, FormControl, Grid, IconButton, InputAdornment, InputLabel, OutlinedInput, Snackbar, Typography } from "@material-ui/core";
 
 function Alert(props) {
@@ -36,7 +36,7 @@ export default function CreateAccount() {
   async function handleFormSubmit(event) {
     event.preventDefault();
     const userLogged = await api
-      .post(`${apiURL.apiSignupURL}`, {
+      .post(`${apiSignupURL}`, {
         name: userLoginValues.name,
         email: userLoginValues.email,
         password: userLoginValues.password,
@@ -305,55 +305,4 @@ const StyledBoxLogin = styled.div`
   background-color: white;
   border-radius: 10px;
   box-shadow: 0px 3px 7px 0px rgb(0 0 0 / 9%);
-`;
-
-// const StyledInputText = styled.input.attrs({
-//   id: "login",
-//   name: "login",
-//   placeholder: "Your e-mail:",
-//   type: "text",
-// })`
-//   width: 100%;
-//   height: 50px;
-//   box-sizing: border-box;
-//   padding: 10px 10px;
-//   border: none;
-//   border-radius: 7px;
-//   margin: 7px 0px;
-//   font-size: 16px;
-// `;
-
-// const StyledInputPass = styled.input.attrs({
-//   id: "password",
-//   name: "password",
-//   placeholder: "Your password:",
-//   type: "password",
-// })`
-//   width: 100%;
-//   height: 50px;
-//   box-sizing: border-box;
-//   padding: 10px 10px;
-//   border: none;
-//   border-radius: 7px;
-//   margin: 7px 0px;
-//   font-size: 16px;
-// `;
-
-const StyledSubmitButton = styled.button`
-  width: 100%;
-  height: 50px;
-  box-sizing: border-box;
-  padding: 10px 10px;
-  border: none;
-  border-radius: 7px;
-  margin: 7px 0px;
-  font-size: 16px;
-  background-color: #565656;
-  color: white;
-  transition: background-color 0.3s;
-  cursor: pointer;
-  &:hover {
-    background-color: #131313;
-    color: white;
-  }
 `;

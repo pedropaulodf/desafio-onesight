@@ -2,8 +2,7 @@ import Header from "../components/Header";
 import { useHistory, useLocation, useRouteMatch } from "react-router-dom";
 import { useEffect, useMemo, useState } from "react";
 import api from "../services/api";
-import apiURL from "../utils/Utils";
-import { useFlexLayout } from "react-table";
+import {urlTheMealDB} from "../utils/Utils";
 import { Skeleton } from "@material-ui/lab";
 import { Button, Card, CardActionArea, CardActions, CardContent, CardMedia, Container, Grid, makeStyles, Paper, TableContainer, Typography } from "@material-ui/core";
 
@@ -84,7 +83,7 @@ export default function MealsList() {
     const idCategory = match.params.id;
 
     const getAllMealsByCategory = async () => {
-      const data = await api.get(`${apiURL.urlTheMealDB}/filter.php?c=${idCategory}`)
+      const data = await api.get(`${urlTheMealDB}/filter.php?c=${idCategory}`)
         .then((response) => {
           return response.data;
         });

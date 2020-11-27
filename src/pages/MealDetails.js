@@ -2,7 +2,7 @@ import { useHistory, useRouteMatch } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Header from "../components/Header";
 import api from "../services/api";
-import apiURL from "../utils/Utils";
+import {urlTheMealDB} from "../utils/Utils";
 import YouTubeIcon from '@material-ui/icons/YouTube';
 import LinkIcon from '@material-ui/icons/Link';
 import PublicIcon from '@material-ui/icons/Public';
@@ -99,7 +99,7 @@ export default function MealDetails() {
 
     const getAllMealsDetails = async () => {
       const data = await api
-        .get(`${apiURL.urlTheMealDB}/lookup.php?i=${mealId}`)
+        .get(`${urlTheMealDB}/lookup.php?i=${mealId}`)
         .then((response) => {
           return response.data;
         });

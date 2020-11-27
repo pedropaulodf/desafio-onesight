@@ -2,11 +2,11 @@ import { useEffect, useMemo, useState } from "react";
 import { useHistory } from "react-router-dom";
 import Header from "../components/Header";
 import api from "../services/api";
-import apiURL from "../utils/Utils";
+import {urlTheMealDB} from "../utils/Utils";
 
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
-import { Button, Container, FormControlLabel, Paper, Switch, TableContainer } from "@material-ui/core";
+import { Button, Container, Paper, TableContainer } from "@material-ui/core";
 import Card from "@material-ui/core/Card";
 import CardActionArea from "@material-ui/core/CardActionArea";
 import CardActions from "@material-ui/core/CardActions";
@@ -78,8 +78,7 @@ export default function MealCategories() {
 
   useEffect(() => {
     const getMealCategories = async () => {
-      const data = await api
-        .get(`${apiURL.urlTheMealDB}/categories.php`)
+      const data = await api.get(`${urlTheMealDB}/categories.php`)
         .then((response) => {
           return response.data;
         });
