@@ -1,4 +1,5 @@
 import { useState } from "react";
+import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router";
 import { makeStyles } from "@material-ui/core/styles";
@@ -9,10 +10,11 @@ import IconButton from "@material-ui/core/IconButton";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
-import { Button, FormControlLabel, ListItemIcon, Switch } from "@material-ui/core";
-
+import { Button, Fab, FormControlLabel, ListItemIcon, Switch, Zoom } from "@material-ui/core";
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import MoreIcon from "@material-ui/icons/MoreVert";
+import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
+import useScrollTrigger from '@material-ui/core/useScrollTrigger';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -25,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
   },
   headerBar: {
-    marginBottom: "20px",
+    marginBottom: "14px",
   },
   sectionDesktop: {
     display: "none",
@@ -38,15 +40,20 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.up("md")]: {
       display: "none"
     }
-  }
+  },
+  btnTop: {
+    position: 'fixed',
+    bottom: theme.spacing(2),
+    right: theme.spacing(2),
+    zIndex: '1500',
+  },
 }));
 
-export default function Header() {
+export default function Header(props) {
   const classes = useStyles();
   const dispatch = useDispatch();
   const history = useHistory();
   const [anchorEl, setAnchorEl] = useState(null);
-  const open = Boolean(anchorEl);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -60,13 +67,8 @@ export default function Header() {
   });
 
   const handleChange = () => {
-    // setTableMode(!tableMode);
     tableMode ? dispatch({ type: "MODE_DISABLE" }) : dispatch({ type: "MODE_ACTIVATE" });
   };
-
-  // function handleGoBackButtonClick() {
-  //   history.goBack();
-  // }
 
   function handleGoToCategories() {
     history.push("/categories");
@@ -160,15 +162,45 @@ export default function Header() {
     </Menu>
   );
 
+  function ScrollTop(props) {
+    const { children, window } = props;
+    const classes = useStyles();
+    const trigger = useScrollTrigger({
+      target: window ? window() : undefined,
+      disableHysteresis: true,
+      threshold: 100,
+    });
+  
+    const handleClickToTop = (event) => {
+      const anchor = (event.target.ownerDocument || document).querySelector('#back-to-top-anchor');
+      if (anchor) {
+        anchor.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    };
+  
+    return (
+      <Zoom in={trigger}>
+        <div onClick={handleClickToTop} role="presentation" className={classes.btnTop}>
+          {children}
+        </div>
+      </Zoom>
+    );
+  }
+  
+  ScrollTop.propTypes = {
+    children: PropTypes.element.isRequired,
+    window: PropTypes.func,
+  };
+
   return (
-    <div className={classes.grow}>
-      <AppBar position="static">
-        <Toolbar>
+    <div className={classes.headerBar}>
+      <AppBar>
+        <Toolbar >
           <Typography className={classes.title} variant="h6" noWrap>
             #DesafioOneSight
           </Typography>
 
-          <div className={classes.grow} />
+          <div />
           <div className={classes.sectionDesktop}>
             <FormControlLabel
               control={<Switch checked={tableMode} onChange={handleChange} name="checkedA" />}
@@ -203,6 +235,12 @@ export default function Header() {
           </div>
         </Toolbar>
       </AppBar>
+      <Toolbar id="back-to-top-anchor" />
+      <ScrollTop {...props} >
+        <Fab color="secondary" size="small" aria-label="scroll back to top">
+          <KeyboardArrowUpIcon />
+        </Fab>
+      </ScrollTop>
       {renderMobileMenu}
       {renderMenu}
     </div>
