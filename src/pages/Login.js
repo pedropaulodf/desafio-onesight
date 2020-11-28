@@ -1,22 +1,43 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import styled from "styled-components";
 import api from "../services/api.js";
 import { useHistory } from "react-router";
-import {
-  Button,
-  FormControl,
-  Grid,
-  IconButton,
-  InputAdornment,
-  InputLabel,
-  OutlinedInput,
-  Snackbar,
-  Typography,
-} from "@material-ui/core";
 import { Visibility, VisibilityOff } from "@material-ui/icons";
 import MuiAlert from "@material-ui/lab/Alert";
 import {apiLoginURL} from '../utils/Utils';
+import { makeStyles } from '@material-ui/core/styles';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import { Box, Button, FormControl, Grid, IconButton, InputAdornment, InputLabel, OutlinedInput, Paper, Snackbar, Typography } from "@material-ui/core";
+
+const useStyles = makeStyles((theme) => ({
+  wrapper: {
+    position: 'relative',
+  },
+  buttonProgress: {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    marginTop: -12,
+    marginLeft: -12,
+  },
+  paperBGLogin: {
+    width: '100%',
+    maxWidth: '300px',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: '20px',
+  },
+  BgLogin: {
+    width: '100vw',
+    height: '100vh',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#f1f1f1',
+  }
+}));
 
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -26,31 +47,29 @@ export default function Login() {
   const logged = useSelector((state) => state.login);
   const history = useHistory();
   const dispatch = useDispatch();
+  const classes = useStyles();
 
+  const [errorMessage, setErrorMessage] = useState('');
+  const [openAlertError, setOpenAlertError] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [userLoginValues, setUserLoginValues] = useState({
     email: '',
     password: '',
     showPassword: false,
   });
-  const [errorMessage, setErrorMessage] = useState('');
-  const [openAlertError, setOpenAlertError] = useState(false);
-  const [btnFormSendDisabled, setBtnFormSendDisabled] = useState(true);
-
-  useEffect(() => {
-    setOpenAlertError(false);
-    setBtnFormSendDisabled(false);
-    setErrorMessage('');
-  }, [userLoginValues.email, userLoginValues.password]);
 
   useEffect(() => {
     if (logged) {
       history.push("/categories");
     }
-  }, []);
+    setOpenAlertError(false);
+    setLoading(false);
+    setErrorMessage('');
+  }, [userLoginValues.email, userLoginValues.password]);
 
   async function handleFormSubmit(event) {
     event.preventDefault();
-    setBtnFormSendDisabled(true);
+    setLoading(true);
     const userLogged = await api
       .post(`${apiLoginURL}`, {
         email: userLoginValues.email,
@@ -72,7 +91,7 @@ export default function Login() {
     } else {
       setErrorMessage("Invalid e-mail or password");
       setOpenAlertError(true);
-      setBtnFormSendDisabled(false);
+      setLoading(false);
     }
   }
 
@@ -86,12 +105,14 @@ export default function Login() {
   const handleInputsChanges = (prop) => (event) => {
     setUserLoginValues({ ...userLoginValues, [prop]: event.target.value });
   };
+
   const handleClickShowPassword = () => {
     setUserLoginValues({
       ...userLoginValues,
       showPassword: !userLoginValues.showPassword,
     });
   };
+
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
@@ -101,8 +122,9 @@ export default function Login() {
   }
   
   return (
-    <StyledContainer>
-      <StyledBoxLogin>
+    <Box className={classes.BgLogin}>
+      <Paper className={classes.paperBGLogin}>
+
         <form onSubmit={handleFormSubmit}>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={12} md={12}>
@@ -159,16 +181,18 @@ export default function Login() {
             </Grid>
 
             <Grid item xs={12} sm={12} md={12}>
-              <Button
-                fullWidth
-                variant="contained"
-                color="primary"
-                type="submit"
-                disableElevation
-                disabled={btnFormSendDisabled}
-              >
-                Login
-              </Button>
+              <div className={classes.wrapper}>
+                <Button
+                  fullWidth
+                  variant="contained"
+                  color="primary"
+                  type="submit"
+                  disabled={loading}
+                >
+                  Login
+                </Button>
+                {loading && <CircularProgress size={24} className={classes.buttonProgress} />}
+              </div>
             </Grid>
           </Grid>
 
@@ -192,30 +216,7 @@ export default function Login() {
         >
           Signup
         </Button>
-      </StyledBoxLogin>
-    </StyledContainer>
+      </Paper>
+    </Box>
   );
 }
-
-const StyledContainer = styled.div`
-  width: 100vw;
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: #f1f1f1;
-`;
-
-const StyledBoxLogin = styled.div`
-  width: 100%;
-  max-width: 300px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: 20px;
-  background-color: white;
-  border-radius: 10px;
-  box-shadow: 0px 3px 7px 0px rgb(0 0 0 / 9%);
-`;
-

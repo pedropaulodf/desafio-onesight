@@ -129,6 +129,7 @@ export default function MealCategories() {
               {
                 rows.map(row => {
                   prepareRow(row);
+                  console.log(row)
                   return (
                     <TableRow {...row.getRowProps()} >
                       {
