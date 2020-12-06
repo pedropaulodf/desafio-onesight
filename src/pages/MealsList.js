@@ -189,7 +189,7 @@ export default function MealsList() {
   return (
     <div>
       <Header></Header>
-      <Container maxWidth="md">
+      <Container maxWidth="lg">
         <Card className={classes.cardFlex}>
           <CardMedia
             xs={12} sm={6} md={4}
@@ -228,13 +228,13 @@ export default function MealsList() {
             </div>
           ) 
           : tableMode ? 
-            <Grid item xs={12} sm={12} md={12}>
+            <Grid item xs={12} sm={12} md={12} lg={12}>
               <Table />
             </Grid>
             : (
             allMealsByCategory.map((meal) => {
               return (
-                <Grid item xs={12} sm={6} md={4} key={meal.idMeal}>
+                <Grid item xs={12} sm={6} md={4} lg={3} key={meal.idMeal}>
                   <Card>
                     <CardActionArea
                       onClick={() =>
