@@ -15,7 +15,7 @@
   font-size: 1.5em;
 }
 
-a {
+.container a {
   color: white;
   font-size: 1.2em;
   background-color: rgb(0 0 0 / 48%);
@@ -24,6 +24,6 @@ a {
   border-radius: 30px;
 }
 
-a:hover {
+.container a:hover {
   background-color: rgb(0 0 0 / 70%);
 }
