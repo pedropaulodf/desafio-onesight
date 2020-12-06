@@ -148,7 +148,7 @@ export default function MealDetails() {
                     <CardMedia
                       className={classes.media}
                       image={meal.strMealThumb}
-                      title={`${meal.strMeal} category image`}
+                      title={`${meal.strMeal} meal image`}
                     />
                   </Card>
 
