@@ -25,6 +25,7 @@ const useStyles = makeStyles((theme) => ({
   },
   title: {
     flexGrow: 1,
+    cursor: 'default',
   },
   headerBar: {
     marginBottom: "14px",
@@ -196,7 +197,7 @@ export default function Header(props) {
     <div className={classes.headerBar}>
       <AppBar>
         <Toolbar >
-          <Typography className={classes.title} variant="h6" noWrap>
+          <Typography className={classes.title} variant="h6" noWrap onClick={handleGoToCategories}>
             #DesafioOneSight
           </Typography>
 

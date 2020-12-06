@@ -292,7 +292,7 @@ export default function MealDetails() {
 
 
                         <Typography className={classes.title} color="textSecondary" gutterBottom>
-                          Tags: {meal.strTags}
+                          {meal.strTags && `Tags: ${meal.strTags}`}
                         </Typography>
                       </Paper>
                     </Grid>
