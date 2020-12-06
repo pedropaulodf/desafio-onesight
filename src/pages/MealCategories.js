@@ -6,7 +6,7 @@ import {urlTheMealDB} from "../utils/Utils";
 
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
-import { Button, Container, Paper, TableContainer } from "@material-ui/core";
+import { Button, Container, Modal, Paper, TableContainer } from "@material-ui/core";
 import Card from "@material-ui/core/Card";
 import CardActionArea from "@material-ui/core/CardActionArea";
 import CardActions from "@material-ui/core/CardActions";
@@ -62,6 +62,34 @@ const useStyles = makeStyles((theme) => ({
   },
   tableCategoryImage: {
     borderRadius: '7px',
+  },
+  mainContent: {
+    display: 'box',
+    lineClamp: 3,
+    boxOrient: 'vertical',  
+    overflow: 'hidden',
+  },
+  modal: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    overflow: 'auto',
+  },
+  modalStyle: {
+    position: 'absolute',
+    width: '70%',
+    maxWidth: 400,
+    backgroundColor: theme.palette.background.paper,
+    boxShadow: theme.shadows[5],
+    padding: theme.spacing(2, 4, 3),
+    outline: 'none',
+    borderRadius: '5px 5px 5px 5px',
+    fontFamily: 'Roboto, sans-serif',
+  },
+  modalImg: {
+    borderRadius: '7px',
+    marginTop: '14px',
+    width: '100%',
   }
 }));
 
@@ -69,12 +97,15 @@ export default function MealCategories() {
   const classes = useStyles();
   const history = useHistory();
 
-  const tableMode = useSelector((state) => {
-    return state.table_mode;
-  });
+  const [open, setOpen] = useState(false);
+  const [modalContent, setModalContent] = useState('');
   
   const [allMealsCategories, setAllMealsCategories] = useState([]);
   // const [tableMode, setTableMode] = useState(false);
+
+  const tableMode = useSelector((state) => {
+    return state.table_mode;
+  });
 
   useEffect(() => {
     const getMealCategories = async () => {
@@ -93,6 +124,24 @@ export default function MealCategories() {
     console.log(allMealsCategories);
   }, []);
   
+  const handleModalOpen = (catName, catDescription, catThumb) => {
+    setModalContent(
+      <div className={classes.modalStyle}>
+        <img src={catThumb} alt={`${catName}`} className={classes.modalImg}/>
+        <h2 id="simple-modal-title">{catName}</h2>
+        <p id="simple-modal-description">
+          {catDescription}
+        </p>
+        <Button size="small" variant="outlined" onClick={handleModalClose}>close</Button>
+      </div>
+    );
+    setOpen(true);
+  };
+
+  const handleModalClose = () => {
+    setOpen(false);
+  };
+
   function Table() {
     const columns = useMemo(() => TABLE_MEALS_CATEGORIES_COLUMNS, []);
     const data = useMemo(() => allMealsCategories, []);
@@ -198,7 +247,7 @@ export default function MealCategories() {
             : (
               allMealsCategories.map((category) => {
                 return (
-                  <Grid item xs={12} sm={6} md={4} key={category.idCategory}>
+                  <Grid item xs={12} sm={6} md={4} direction='column' key={category.idCategory}>
                     <Card>
                       <CardActionArea
                         onClick={() =>
@@ -214,9 +263,21 @@ export default function MealCategories() {
                           <Typography gutterBottom variant="h4" component="h4" className={classes.center}>
                             {category.strCategory}
                           </Typography>
+                          <Typography gutterBottom variant="body1" component="body1" className={[classes.center, classes.mainContent]} >
+                            {category.strCategoryDescription}
+                          </Typography>
                         </CardContent>
                       </CardActionArea>
                       <CardActions>
+                        <Button
+                          size="small"
+                          // color="primary"
+                          variant="outlined"
+                          fullWidth
+                          onClick={() => {handleModalOpen(category.strCategory, category.strCategoryDescription, category.strCategoryThumb)}}
+                        >
+                          Description
+                        </Button>
                         <Button
                           size="small"
                           color="primary"
@@ -226,7 +287,7 @@ export default function MealCategories() {
                             handleClickGoToCategoryMeals(category.strCategory, category.strCategoryDescription, category.strCategoryThumb)
                           }
                         >
-                          See meals of this category
+                          See meals
                         </Button>
                       </CardActions>
                     </Card>
@@ -236,6 +297,17 @@ export default function MealCategories() {
             )
           )}
         </Grid>
+
+        <Modal
+          className={classes.modal}
+          open={open}
+          onClose={handleModalClose}
+          aria-labelledby="simple-modal-title"
+          aria-describedby="simple-modal-description"
+        >
+          {modalContent}
+        </Modal>
+
       </Container>
     </div>
   );

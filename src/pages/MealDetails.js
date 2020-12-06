@@ -118,7 +118,7 @@ export default function MealDetails() {
     <div>
       <Header></Header>
       <Container maxWidth="md">
-        <Button size="large" color="primary" onClick={handleGoBackButtonClick}>
+        <Button fullWidth size="large" color="primary" variant="outlined" style={{marginBottom: '10px'}} onClick={handleGoBackButtonClick}>
           Go back
         </Button>
         <Grid container spacing={3}>

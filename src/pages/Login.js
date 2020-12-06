@@ -53,8 +53,8 @@ export default function Login() {
   const [openAlertError, setOpenAlertError] = useState(false);
   const [loading, setLoading] = useState(false);
   const [userLoginValues, setUserLoginValues] = useState({
-    email: '',
-    password: '',
+    email: 'fulano@gmail.com',
+    password: '123123123',
     showPassword: false,
   });
 

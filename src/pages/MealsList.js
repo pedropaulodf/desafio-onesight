@@ -29,12 +29,12 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: "20px",
   },
   media: {
-    height: 160,
+    height: 200,
   },
   categoryImage: {
-    width: "200px",
+    width: "50%",
     minWidth: '100px',
-    backgroundSize: "contain",
+    backgroundSize: "cover",
   },
   paper: {
     display: "flex",
@@ -200,7 +200,7 @@ export default function MealsList() {
           <div className={classes.details}>
             <CardContent className={classes.content}>
               <Typography gutterBottom variant="h4" component="h4">
-                Category: {match.params.id}
+                Category {match.params.id}
               </Typography>
               {/* <Typography gutterBottom variant="body1" component="p">
                 {location.state.description}
@@ -208,7 +208,7 @@ export default function MealsList() {
             </CardContent>
             <CardActions>
               <Button color="primary" onClick={handleGoBackButtonClick}>
-                Go back to all categories
+                See all categories
               </Button>
             </CardActions>
           </div>
@@ -254,13 +254,15 @@ export default function MealsList() {
                     </CardActionArea>
                     <CardActions>
                       <Button
+                        fullWidth
                         size="small"
                         color="primary"
+                        variant="contained"
                         onClick={() =>
                           handleClickGoToMealsCategoryList(meal.idMeal)
                         }
                       >
-                        See this recipe
+                        See recipe
                       </Button>
                     </CardActions>
                   </Card>
