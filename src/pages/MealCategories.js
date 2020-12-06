@@ -229,7 +229,7 @@ export default function MealCategories() {
   return (
     <div>
       <Header></Header>
-      <Container maxWidth="md">
+      <Container maxWidth="lg">
 
         <Grid container spacing={3} className={classes.container}>
           {allMealsCategories.length === 0 
@@ -247,7 +247,7 @@ export default function MealCategories() {
             : (
               allMealsCategories.map((category) => {
                 return (
-                  <Grid item xs={12} sm={6} md={4} direction='column' key={category.idCategory}>
+                  <Grid item xs={12} sm={6} md={4} lg={3} direction='column' key={category.idCategory}>
                     <Card>
                       <CardActionArea
                         onClick={() =>
