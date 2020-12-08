@@ -19,15 +19,14 @@ import TableBody from '@material-ui/core/TableBody'
 import TableCell from '@material-ui/core/TableCell'
 import TableHead from '@material-ui/core/TableHead'
 import TableRow from '@material-ui/core/TableRow'
+import transitions from "@material-ui/core/styles/transitions";
 
 import { useTable } from "react-table";
-import { TABLE_MEALS_CATEGORIES_COLUMNS } from "../components/tablesColumns";
+import { TABLE_MEALS_CATEGORIES_COLUMNS } from "../utils/tablesColumns";
 import { Skeleton } from "@material-ui/lab";
 import { useSelector } from "react-redux";
 
-/*
-  Categorias de alimentos
-*/
+import '../styles/tablesStyles.css';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -159,20 +158,71 @@ export default function MealCategories() {
 
     return (
       <div>
-          <TableContainer component={Paper}>
-          <MaUTable {...getTableProps()}>
-            <TableHead>
-              {headerGroups.map((headerGroup, index) => {
-                <TableRow key={index} {...headerGroup.getHeaderGroupProps()}>
+        <table className="table" {...getTableProps()}>
+          <thead>
+            {headerGroups.map(headerGroup => (
+              <tr {...headerGroup.getHeaderGroupProps()}>
+                {headerGroup.headers.map(column => (
+                  <th {...column.getHeaderProps()}>{column.render('Header')}</th>
+                ))}
+              </tr>
+            ))}
+          </thead>
+          <tbody>
+          {
+            rows.map(row => {
+              prepareRow(row);
+              return (
+                <tr {...row.getRowProps()} >
                   {
-                    headerGroup.headers.map((column, index) => {
-                      <TableCell key={index} {...column.getHeaderProps()}>
-                        {column.render('Header')}
-                      </TableCell>
+                    row.cells.map((cell, index) => {
+                      if (index === 0) {
+                        return (
+                          <td key={index} data-label="Image">
+                            <img src={cell.row.cells[index].value} alt="Category"  className="" />
+                          </td>
+                        )
+                      } else if(index === 1) {
+                        return (
+                          <td key={index} data-label="Category">
+                            {cell.row.cells[index].value}
+                          </td>);
+                      } else if(index === 2) {
+                        return (
+                          <td key={index} data-label="Info">
+                            {cell.row.cells[index].value}
+                          </td>);
+                      } else if(index === 3) {
+                        return (
+                          <td key={index} data-label="Link">
+                              <Button 
+                              fullWidth
+                              variant="contained"
+                              color="primary"
+                              onClick={() => handleClickGoToCategoryMeals(cell.row.cells[index-2].value, cell.row.cells[index-2].value, cell.row.cells[index-3].value)
+                              }>See {cell.row.cells[index].value} meals</Button>
+                          </td>
+                        )
+                      }
                     })
                   }
+                </tr>
+              )
+            })
+          }
+          </tbody>
+        </table>
+
+        {/* <TableContainer component={Paper}>
+          <MaUTable {...getTableProps()}>
+            <TableHead>
+              {headerGroups.map(headerGroup => (
+                <TableRow {...headerGroup.getHeaderGroupProps()}>
+                  {headerGroup.headers.map(column => (
+                    <TableCell {...column.getHeaderProps()}>{column.render('Header')}</TableCell>
+                  ))}
                 </TableRow>
-              })}
+              ))}
             </TableHead>
             <TableBody {...getTableBodyProps()}>
               {
@@ -217,7 +267,8 @@ export default function MealCategories() {
               }
             </TableBody>
           </MaUTable>
-        </TableContainer>
+        </TableContainer> */}
+        
       </div>
     );
   }

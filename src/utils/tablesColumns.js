@@ -4,7 +4,7 @@ export const TABLE_MEALS_CATEGORIES_COLUMNS = [
     accessor: 'strCategoryThumb',
   },
   {
-    Header: 'Category',
+    Header: 'Categories',
     accessor: 'strCategory',
   },
   {

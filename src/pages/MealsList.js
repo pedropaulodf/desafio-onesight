@@ -7,7 +7,7 @@ import { Skeleton } from "@material-ui/lab";
 import { Button, Card, CardActionArea, CardActions, CardContent, CardMedia, Container, Grid, makeStyles, Paper, TableContainer, Typography } from "@material-ui/core";
 
 import { useTable } from "react-table";
-import { TABLE_MEALS_LIST_COLUMNS } from "../components/tablesColumns";
+import { TABLE_MEALS_LIST_COLUMNS } from "../utils/tablesColumns";
 import { useSelector } from "react-redux";
 
 import MaUTable from '@material-ui/core/Table'
@@ -16,9 +16,8 @@ import TableCell from '@material-ui/core/TableCell'
 import TableHead from '@material-ui/core/TableHead'
 import TableRow from '@material-ui/core/TableRow'
 
-/*
-  Tabela com foto, nome, categoria e link para vídeo da receita
-*/
+import '../styles/tablesStyles.css';
+
 const useStyles = makeStyles((theme) => ({
   root: {
     // maxWidth: 345,
@@ -125,20 +124,70 @@ export default function MealsList() {
 
     return (
       <div>
-          <TableContainer component={Paper}>
+
+        
+        <table className="table" {...getTableProps()}>
+          <thead>
+            {headerGroups.map(headerGroup => (
+              <tr {...headerGroup.getHeaderGroupProps()}>
+                {headerGroup.headers.map(column => (
+                  <th {...column.getHeaderProps()}>{column.render('Header')}</th>
+                ))}
+              </tr>
+            ))}
+          </thead>
+          <tbody>
+          {
+              rows.map(row => {
+                prepareRow(row);
+                return (
+                  <tr {...row.getRowProps()} >
+                    {
+                      row.cells.map((cell, index) => {
+                        if (index === 0) {
+                          return (
+                            <td key={index} data-label="Image">
+                              <img src={cell.row.cells[index].value} alt="Category" width="100px" className={classes.tableCategoryImage} />
+                            </td>
+                          )
+                        }else if(index === 2) {
+                          return (
+                            <td key={index} data-label="Link">
+                                <Button 
+                                fullWidth
+                                variant="contained"
+                                color="primary"
+                                onClick={() => handleClickGoToMealsCategoryList(cell.row.cells[index].value)
+                                }>See this recipe</Button>
+                            </td>
+                          )
+                        } else {
+                          return (
+                            <td key={index} data-label="Name">
+                              <Typography gutterBottom variant="h5" component="h5" className="alignLeftDeskTop">
+                                {cell.row.cells[index].value}
+                              </Typography>
+                            </td>);
+                        }
+                      })
+                    }
+                  </tr>
+                )
+              })
+            }
+          </tbody>
+        </table>
+
+        {/* <TableContainer component={Paper}>
           <MaUTable {...getTableProps()}>
             <TableHead>
-              {headerGroups.map((headerGroup, index) => {
-                <TableRow key={index} {...headerGroup.getHeaderGroupProps()}>
-                  {
-                    headerGroup.headers.map((column, index) => {
-                      <TableCell key={index} {...column.getHeaderProps()}>
-                        {column.render('Header')}
-                      </TableCell>
-                    })
-                  }
+              {headerGroups.map(headerGroup => (
+                <TableRow {...headerGroup.getHeaderGroupProps()}>
+                  {headerGroup.headers.map(column => (
+                    <TableCell {...column.getHeaderProps()}>{column.render('Header')}</TableCell>
+                  ))}
                 </TableRow>
-              })}
+              ))}
             </TableHead>
             <TableBody {...getTableBodyProps()}>
               {
@@ -181,7 +230,7 @@ export default function MealsList() {
               }
             </TableBody>
           </MaUTable>
-        </TableContainer>
+        </TableContainer> */}
       </div>
     );
   }
@@ -218,7 +267,6 @@ export default function MealsList() {
           {allMealsByCategory.length === 0 
           ? (
             <div className={classes.preloader}>
-              {/* <CircularProgress /> */}
               <Card style={{width: '100%'}}>
                 <CardContent>
                   <Skeleton animation="wave" variant="rect" width='100%' height={200} />
