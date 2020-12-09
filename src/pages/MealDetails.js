@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
     // marginBottom: 20
   },
   media: {
-    height: 400,
+    height: 500,
   },
   paper: {
     display: "flex",

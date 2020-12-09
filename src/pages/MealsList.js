@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: "20px",
   },
   media: {
-    height: 200,
+    height: 300,
   },
   categoryImage: {
     width: "50%",
