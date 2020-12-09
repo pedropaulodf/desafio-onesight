@@ -9,6 +9,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { Box, Button, FormControl, Grid, IconButton, InputAdornment, InputLabel, OutlinedInput, Paper, Snackbar, Typography } from "@material-ui/core";
 
+import loginImage from '../images/logo192.png';
+
 const useStyles = makeStyles((theme) => ({
   wrapper: {
     position: 'relative',
@@ -36,6 +38,9 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#f1f1f1',
+  },
+  txtAlignCenter: {
+    textAlign: 'center'
   }
 }));
 
@@ -125,10 +130,12 @@ export default function Login() {
     <Box className={classes.BgLogin}>
       <Paper className={classes.paperBGLogin}>
 
+        <img src={loginImage} alt="Meal" className={{marginBottom: '20px'}} />
+
         <form onSubmit={handleFormSubmit}>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={12} md={12}>
-              <Typography variant="h5" gutterBottom>
+              <Typography variant="h5" className={classes.txtAlignCenter} gutterBottom>
                 Recipes Login
               </Typography>
             </Grid>
