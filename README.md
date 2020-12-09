@@ -1,6 +1,6 @@
 # Desafio OneSight
 
-[Veja no Heroku](https://desafio-onesight.herokuapp.com/) ou [Veja na Vercel](https://desafio-onesight-fze1ii8o1.vercel.app/)
+[Veja no Heroku](https://desafio-onesight.herokuapp.com/) ou [Veja na Vercel](https://desafio-onesight.vercel.app/)
 
 ### Rodar o server
 
