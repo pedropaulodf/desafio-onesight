@@ -88,6 +88,7 @@ const useStyles = makeStyles((theme) => ({
     display: 'grid',
     gridTemplateColumns: '1fr',
     gridGap: '10px',
+    marginBottom: '20px',
     [theme.breakpoints.up('sm')]: {
       gridTemplateColumns: '1fr 1fr',
     },
@@ -112,6 +113,7 @@ const useStyles = makeStyles((theme) => ({
   },
   ingredientBoxName: {
     fontSize: 14,
+    textTransform: 'capitalize',
   }
   
 }));
@@ -238,7 +240,7 @@ export default function MealDetails() {
                     <Grid item xs={12} sm={12} md={12} lg={12}>
                       <Paper className={classes.padding}>
                         <Typography variant="h6" color="textSecondary" gutterBottom>
-                        Description:
+                        How to prepare:
                         </Typography>
 
                         <Typography gutterBottom variant="body1" component="p">
