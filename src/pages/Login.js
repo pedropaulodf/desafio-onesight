@@ -38,9 +38,14 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#f1f1f1',
+    flexDirection: 'column',
   },
   txtAlignCenter: {
     textAlign: 'center'
+  },
+  txtLoginBottomMessage: {
+    marginTop: `10px`,
+    color: `#c3c3c3`,
   }
 }));
 
@@ -224,6 +229,9 @@ export default function Login() {
           Create Account
         </Button>
       </Paper>
+      <Typography variant="p" className={classes.txtLoginBottomMessage} gutterBottom>
+        PS.: The first login may load slowly [heroku]
+      </Typography>
     </Box>
   );
 }
