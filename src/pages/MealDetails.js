@@ -66,23 +66,19 @@ const useStyles = makeStyles((theme) => ({
   noTextStyle: {
     textDecoration: 'none',
   },
-  txtBtnYoutube: {
-    fontSize: 20,
-    color: 'white',
-  },
   btnYoutube: {
-    backgroundColor: '#e23b3b',
-    display: 'flex',
-    minHeight: '70px',
-  },
-  txtBtnSource: {
-    fontSize: 20,
+    backgroundColor: 'red',
     color: 'white',
+    '&:hover': {
+      backgroundColor: '#d01616',
+    },
   },
   btnSource: {
     backgroundColor: 'green',
-    display: 'flex',
-    minHeight: '70px',
+    color: 'white',
+    '&:hover': {
+      backgroundColor: '#065a06',
+    },
   },
   ingredientsColumns: {
     display: 'grid',
@@ -105,7 +101,7 @@ const useStyles = makeStyles((theme) => ({
     padding: '3px',
     '&:hover': {
       boxShadow: '0px 2px 3px 0px rgba(0,0,0,.2)',
-   },
+    },
   },
   ingredientBoxImage: {
     width: '40px',
@@ -178,14 +174,27 @@ export default function MealDetails() {
               
               return (
                 <Grid item xs={12} sm={12} md={12} key={meal.idMeal}>
+                  
                   <Card className={classes.marginBottom}>
-                    <div className={classes.details}>
-                    <CardContent>
-                      <Typography variant="h3" gutterBottom>
-                        {meal.strMeal}
-                      </Typography>
-                    </CardContent>
-                    </div>
+                      <CardContent>
+                        <Typography variant="h3">
+                          {meal.strMeal}
+                        </Typography>
+                      </CardContent>
+                    {/* <CardMedia
+                      className={classes.media}
+                      image={meal.strMealThumb}
+                      title={`${meal.strMeal} meal image`}
+                    /> */}
+                  </Card>
+                  <Card className={classes.marginBottom}>
+                    {/* <div className={classes.details}>
+                      <CardContent>
+                        <Typography variant="h3" gutterBottom>
+                          {meal.strMeal}
+                        </Typography>
+                      </CardContent>
+                    </div> */}
                     <CardMedia
                       className={classes.media}
                       image={meal.strMealThumb}
@@ -195,9 +204,9 @@ export default function MealDetails() {
 
                   <Grid container spacing={3}>
 
-                    <Grid item xs={6} sm={6} md={6} lg={3}>
+                    <Grid item xs={12} sm={6} md={3} lg={3}>
                       <Paper className={classes.padding}>
-                        <Typography className={[classes.title, classes.flexCenter]} color="textSecondary" gutterBottom>
+                        <Typography className={[classes.title, classes.flexCenter]} color="textSecondary">
                           <FastfoodIcon /> Category
                         </Typography>
                         <Typography gutterBottom variant="h5" component="h2">
@@ -206,9 +215,9 @@ export default function MealDetails() {
                       </Paper>
                     </Grid>
 
-                    <Grid item xs={6} sm={6} md={6} lg={3}>
+                    <Grid item xs={12} sm={6} md={3} lg={3}>
                       <Paper className={classes.padding}>
-                        <Typography className={[classes.title, classes.flexCenter]} color="textSecondary" gutterBottom>
+                        <Typography className={[classes.title, classes.flexCenter]} color="textSecondary">
                           <PublicIcon /> Region
                         </Typography>
                         <Typography gutterBottom variant="h5" component="h2">
@@ -217,21 +226,45 @@ export default function MealDetails() {
                       </Paper>
                     </Grid>
 
-                    <Grid item xs={6} sm={6} md={6} lg={3}>
+                    <Grid item xs={12} sm={6} md={3} lg={3}>
                       <a href={meal.strYoutube} target="blank" className={classes.noTextStyle}>
-                        <Paper className={[classes.padding, classes.btnYoutube]}>
-                          <Typography className={[classes.txtBtnYoutube, classes.flexCenter]} color="white" gutterBottom>
-                            <YouTubeIcon /> See on Youtube 
+                        <Paper className={[classes.padding]}>
+                          <Typography className={[classes.title, classes.flexCenter]} color="textSecondary" gutterBottom>
+                            <YouTubeIcon /> Youtube
+                          </Typography>
+                          <Typography className={[classes.flexCenter]} color="white" gutterBottom>
+                            {/* <YouTubeIcon /> See on Youtube  */}
+                            <Button
+                              variant="contained"
+                              className={[classes.button, classes.btnYoutube]}
+                              startIcon={<YouTubeIcon />}
+                              size="small"
+                              fullWidth
+                            >
+                              See on Youtube
+                            </Button>
                           </Typography>
                         </Paper>
                       </a>
                     </Grid>
 
-                    <Grid item xs={6} sm={6} md={6} lg={3}>
+                    <Grid item xs={12} sm={6} md={3} lg={3}>
                       <a href={meal.strSource} target="blank" className={classes.noTextStyle}>
-                        <Paper className={[classes.padding, classes.btnSource]}>
-                          <Typography className={[classes.txtBtnSource, classes.flexCenter]} color="textSecondary" gutterBottom>
-                            <LinkIcon /> Read on Source
+                        <Paper className={[classes.padding]}>
+                          <Typography className={[classes.title, classes.flexCenter]} color="textSecondary" gutterBottom>
+                            <LinkIcon /> Font
+                          </Typography>
+                          <Typography className={[classes.flexCenter]} color="textSecondary" gutterBottom>
+                            {/* <LinkIcon /> Read on Source */}
+                            <Button
+                              variant="contained"
+                              className={[classes.button, classes.btnSource]}
+                              startIcon={<LinkIcon />}
+                              size="small"
+                              fullWidth
+                            >
+                              Read on Source
+                            </Button>
                           </Typography>
                         </Paper>
                       </a>
