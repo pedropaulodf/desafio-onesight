@@ -120,7 +120,6 @@ export default function MealCategories() {
     };
 
     getMealCategories();
-    console.log(allMealsCategories);
   }, []);
   
   const handleModalOpen = (catName, catDescription, catThumb) => {

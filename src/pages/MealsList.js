@@ -86,7 +86,7 @@ export default function MealsList() {
         .then((response) => {
           return response.data;
         });
-      console.log(data);
+      // console.log(data);
       
       const newData = data.meals.map(meal => {
         return {...meal, 'mealLink': `${meal.idMeal}`};

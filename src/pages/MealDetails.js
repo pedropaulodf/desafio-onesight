@@ -151,6 +151,14 @@ export default function MealDetails() {
     history.goBack();
   }
 
+  function handleClickBtnYoutube(url) {
+    window.open(url, '_blank');
+  }
+
+  function handleClickBtnSource(url) {
+    window.open(url, '_blank');
+  }
+
   return (
     <div>
       <Header></Header>
@@ -227,47 +235,47 @@ export default function MealDetails() {
                     </Grid>
 
                     <Grid item xs={12} sm={6} md={3} lg={3}>
-                      <a href={meal.strYoutube} target="blank" className={classes.noTextStyle}>
-                        <Paper className={[classes.padding]}>
-                          <Typography className={[classes.title, classes.flexCenter]} color="textSecondary" gutterBottom>
-                            <YouTubeIcon /> Youtube
-                          </Typography>
-                          <Typography className={[classes.flexCenter]} color="white" gutterBottom>
-                            {/* <YouTubeIcon /> See on Youtube  */}
-                            <Button
-                              variant="contained"
-                              className={[classes.button, classes.btnYoutube]}
-                              startIcon={<YouTubeIcon />}
-                              size="small"
-                              fullWidth
-                            >
-                              See on Youtube
-                            </Button>
-                          </Typography>
-                        </Paper>
-                      </a>
+                      <Paper className={[classes.padding]}>
+                        <Typography className={[classes.title, classes.flexCenter]} color="textSecondary" gutterBottom>
+                          <YouTubeIcon /> Youtube
+                        </Typography>
+                        <Typography className={[classes.flexCenter]} color="white" gutterBottom>
+                          {/* <YouTubeIcon /> See on Youtube  */}
+                          <Button
+                            variant="contained"
+                            className={[classes.button, classes.btnYoutube]}
+                            startIcon={<YouTubeIcon />}
+                            size="small"
+                            fullWidth
+                            disabled={meal.strYoutube ? false : true}
+                            onClick={() => handleClickBtnYoutube(meal.strYoutube)}
+                          >
+                            See on Youtube
+                          </Button>
+                        </Typography>
+                      </Paper>
                     </Grid>
 
                     <Grid item xs={12} sm={6} md={3} lg={3}>
-                      <a href={meal.strSource} target="blank" className={classes.noTextStyle}>
-                        <Paper className={[classes.padding]}>
-                          <Typography className={[classes.title, classes.flexCenter]} color="textSecondary" gutterBottom>
-                            <LinkIcon /> Font
-                          </Typography>
-                          <Typography className={[classes.flexCenter]} color="textSecondary" gutterBottom>
-                            {/* <LinkIcon /> Read on Source */}
-                            <Button
-                              variant="contained"
-                              className={[classes.button, classes.btnSource]}
-                              startIcon={<LinkIcon />}
-                              size="small"
-                              fullWidth
-                            >
-                              Read on Source
-                            </Button>
-                          </Typography>
-                        </Paper>
-                      </a>
+                      <Paper className={[classes.padding]}>
+                        <Typography className={[classes.title, classes.flexCenter]} color="textSecondary" gutterBottom>
+                          <LinkIcon /> Font
+                        </Typography>
+                        <Typography className={[classes.flexCenter]} color="textSecondary" gutterBottom>
+                          {/* <LinkIcon /> Read on Source */}
+                          <Button
+                            variant="contained"
+                            className={[classes.button, classes.btnSource]}
+                            startIcon={<LinkIcon />}
+                            size="small"
+                            fullWidth
+                            disabled={meal.strSource ? false : true}
+                            onClick={() => handleClickBtnSource(meal.strSource)}
+                          >
+                            Read on Source
+                          </Button>
+                        </Typography>
+                      </Paper>
                     </Grid>
 
                     <Grid item xs={12} sm={12} md={12} lg={12}>
