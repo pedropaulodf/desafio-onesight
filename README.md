@@ -17,6 +17,6 @@ Basta clonar o projeto [desafio-onesight-api](https://github.com/pedropaulodf/de
 Basta dar um `yarn install` e depois um `yarn start`.
 
 
-### Ainda a corrigir
+### Ainda a implementar
 
-* "Responsividade" da tabela no mobile
+* Mostrar o nome do usuário na barra do topo
