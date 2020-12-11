@@ -83,7 +83,37 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: 'green',
     display: 'flex',
     minHeight: '70px',
+  },
+  ingredientsColumns: {
+    display: 'grid',
+    gridTemplateColumns: '1fr',
+    gridGap: '10px',
+    [theme.breakpoints.up('sm')]: {
+      gridTemplateColumns: '1fr 1fr',
+    },
+    [theme.breakpoints.up('md')]: {
+      gridTemplateColumns: '1fr 1fr 1fr',
+    },
+  },
+  ingredientBox: {
+    display: 'flex',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    border: '1px solid #efefef',
+    borderRadius: '6px',
+    padding: '3px',
+    '&:hover': {
+      boxShadow: '0px 2px 3px 0px rgba(0,0,0,.2)',
+   },
+  },
+  ingredientBoxImage: {
+    width: '40px',
+    marginRight: '10px',
+  },
+  ingredientBoxName: {
+    fontSize: 14,
   }
+  
 }));
 
 export default function MealDetails() {
@@ -92,9 +122,9 @@ export default function MealDetails() {
   const match = useRouteMatch();
 
   const [allMealDetails, setAllMealDetails] = useState([]);
-
+  const [allIngredients, setAllIngredients] = useState([]);
+  
   useEffect(() => {
-    console.log(match.params.id);
     const mealId = match.params.id;
 
     const getAllMealsDetails = async () => {
@@ -103,8 +133,17 @@ export default function MealDetails() {
         .then((response) => {
           return response.data;
         });
-      console.log(data);
+        
+      data.meals.map((meal) => {
+        for (let i = 0; i < 20; i++) {
+          if (meal[`strIngredient${i}`]) {
+            allIngredients.push({ingredient : meal[`strIngredient${i}`], measure: meal[`strMeasure${i}`]});
+          };
+        };
+      });
+
       setAllMealDetails(data);
+
     };
 
     getAllMealsDetails();
@@ -134,7 +173,7 @@ export default function MealDetails() {
             </div>
           ) : (
             allMealDetails.meals.map((meal) => {
-
+              
               return (
                 <Grid item xs={12} sm={12} md={12} key={meal.idMeal}>
                   <Card className={classes.marginBottom}>
@@ -198,8 +237,8 @@ export default function MealDetails() {
 
                     <Grid item xs={12} sm={12} md={12} lg={12}>
                       <Paper className={classes.padding}>
-                        <Typography className={classes.title} color="textSecondary" gutterBottom>
-                          Recipe Description
+                        <Typography variant="h6" color="textSecondary" gutterBottom>
+                        Description:
                         </Typography>
 
                         <Typography gutterBottom variant="body1" component="p">
@@ -207,89 +246,13 @@ export default function MealDetails() {
                         </Typography>
 
                         <Typography variant="h6" color="textSecondary" gutterBottom>
-                          Recipe Ingredients:
+                          Ingredients:
                         </Typography>
-
-                        {meal.strIngredient1 && <Typography gutterBottom variant="body1" component="li">
-                          {`${meal.strIngredient1}: ${meal.strMeasure1}`}
-                        </Typography>}
-                        
-                        {meal.strIngredient2 && <Typography gutterBottom variant="body1" component="li">
-                          {`${meal.strIngredient2}: ${meal.strMeasure2}`}
-                        </Typography>}
-
-                        {meal.strIngredient3 && <Typography gutterBottom variant="body1" component="li">
-                          {`${meal.strIngredient3}: ${meal.strMeasure3}`}
-                        </Typography>}
-
-                        {meal.strIngredient4 && <Typography gutterBottom variant="body1" component="li">
-                          {`${meal.strIngredient4}: ${meal.strMeasure4}`}
-                        </Typography>}
-
-                        {meal.strIngredient5 && <Typography gutterBottom variant="body1" component="li">
-                          {`${meal.strIngredient5}: ${meal.strMeasure5}`}
-                        </Typography>}
-
-                        {meal.strIngredient6 && <Typography gutterBottom variant="body1" component="li">
-                          {`${meal.strIngredient6}: ${meal.strMeasure6}`}
-                        </Typography>}
-
-                        {meal.strIngredient7 && <Typography gutterBottom variant="body1" component="li">
-                          {`${meal.strIngredient7}: ${meal.strMeasure7}`}
-                        </Typography>}
-
-                        {meal.strIngredient8 && <Typography gutterBottom variant="body1" component="li">
-                          {`${meal.strIngredient8}: ${meal.strMeasure8}`}
-                        </Typography>}
-
-                        {meal.strIngredient9 && <Typography gutterBottom variant="body1" component="li">
-                          {`${meal.strIngredient9}: ${meal.strMeasure9}`}
-                        </Typography>}
-
-                        {meal.strIngredient10 && <Typography gutterBottom variant="body1" component="li">
-                          {`${meal.strIngredient10}: ${meal.strMeasure10}`}
-                        </Typography>}
-
-                        {meal.strIngredient11 && <Typography gutterBottom variant="body1" component="li">
-                          {`${meal.strIngredient11}: ${meal.strMeasure11}`}
-                        </Typography>}
-
-                        {meal.strIngredient12 && <Typography gutterBottom variant="body1" component="li">
-                          {`${meal.strIngredient12}: ${meal.strMeasure12}`}
-                        </Typography>}
-
-                        {meal.strIngredient13 && <Typography gutterBottom variant="body1" component="li">
-                          {`${meal.strIngredient13}: ${meal.strMeasure13}`}
-                        </Typography>}
-
-                        {meal.strIngredient14 && <Typography gutterBottom variant="body1" component="li">
-                          {`${meal.strIngredient14}: ${meal.strMeasure14}`}
-                        </Typography>}
-
-                        {meal.strIngredient15 && <Typography gutterBottom variant="body1" component="li">
-                          {`${meal.strIngredient15}: ${meal.strMeasure15}`}
-                        </Typography>}
-
-                        {meal.strIngredient16 && <Typography gutterBottom variant="body1" component="li">
-                          {`${meal.strIngredient16}: ${meal.strMeasure16}`}
-                        </Typography>}
-
-                        {meal.strIngredient17 && <Typography gutterBottom variant="body1" component="li">
-                          {`${meal.strIngredient17}: ${meal.strMeasure17}`}
-                        </Typography>}
-
-                        {meal.strIngredient18 && <Typography gutterBottom variant="body1" component="li">
-                          {`${meal.strIngredient18}: ${meal.strMeasure18}`}
-                        </Typography>}
-
-                        {meal.strIngredient19 && <Typography gutterBottom variant="body1" component="li">
-                          {`${meal.strIngredient19}: ${meal.strMeasure19}`}
-                        </Typography>}
-
-                        {meal.strIngredient20 && <Typography gutterBottom variant="body1" component="li">
-                          {`${meal.strIngredient20}: ${meal.strMeasure20}`}
-                        </Typography>}
-
+                        <div className={classes.ingredientsColumns}>
+                          {allIngredients.map(item => {
+                            return (<div className={classes.ingredientBox}><img className={classes.ingredientBoxImage} src={`https://www.themealdb.com/images/ingredients/${item.ingredient}-Small.png`} alt="Ingredient"/><Typography className={classes.ingredientBoxName} variant="body1" component="p">{`${item.ingredient}: ${item.measure}`}</Typography></div>);
+                          })}
+                        </div>
 
                         <Typography className={classes.title} color="textSecondary" gutterBottom>
                           {meal.strTags && `Tags: ${meal.strTags}`}
