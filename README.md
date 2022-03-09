@@ -3,7 +3,7 @@
 [Veja online na Vercel](https://desafio-onesight.vercel.app/)
 
 ## Objetivo
-Criar um sistema onde o usuário pode consultar suas receitas preferidas. O sistema possui login e cadastro, com estado global usando Redux. O visual do sistema usa o Material UI para ReactJS, Axios para consultar. O backend foi feito com Node, usando Express, JWT, Mongoose e hospedado no Heroku.
+Criar um sistema onde o usuário pode consultar suas receitas preferidas. O sistema possui login e cadastro, com estado global usando Redux. O visual do sistema usa o Material UI para ReactJS, Axios para consultar. O backend foi feito com Node, usando Express, JWT, Mongoose e hospedado no Heroku. Todo o sistema é responsivo, inclusive as tabelas.
 
 ## Tecnologias usadas no front
 - [x] React.js
