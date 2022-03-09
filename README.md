@@ -1,12 +1,21 @@
 # Desafio OneSight
 
-[Veja na Vercel](https://desafio-onesight.vercel.app/)
+[Veja online na Vercel](https://desafio-onesight.vercel.app/)
 
 ## Tecnologias usadas no front
-React.js, Redux, React Router, Axios, Material UI
+- [x] React.js
+- [x] Redux
+- [x] React Router
+- [x] Axios
+- [x] Material UI
 
 ## Tecnologias usadas no [backend](https://github.com/pedropaulodf/desafio-onesight-api/)
-Express, Cors, bcrypt, JWT, Mongoose, Hapi/joi
+- [x] Express
+- [x] Cors
+- [x] bcrypt
+- [x] JWT
+- [x] Mongoose
+- [x] Hapi/joi
 
 ### Rodar o server
 
