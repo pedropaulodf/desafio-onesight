@@ -133,6 +133,13 @@ export default function Login() {
   
   return (
     <Box className={classes.BgLogin}>
+      <Grid container spacing={2}>
+        <Grid item xs={12} sm={12} md={12}>
+          <Typography variant="h6" className={classes.txtAlignCenter} gutterBottom>
+            Projeto indisponível. Motivo: Heroku
+          </Typography>
+        </Grid>
+      </Grid>
       <Paper className={classes.paperBGLogin}>
 
         <img src={loginImage} alt="Meal" className={{marginBottom: '20px'}} />
